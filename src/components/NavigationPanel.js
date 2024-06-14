@@ -12,7 +12,7 @@ const NavigationPanel = () => {
       <nav>
         <ul>
           <li>
-            <NavLink to="/">
+            <NavLink to="/dashboard">
               <FaTachometerAlt className="nav-icon" /> {/* Dashboard Icon */}
               <span>Dashboard</span>
             </NavLink>
@@ -24,31 +24,31 @@ const NavigationPanel = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/components">
+            <NavLink to="/low-stocks">
               <FaBoxOpen className="nav-icon" /> {/* Low Stocks Icon */}
               <span>Low Stocks</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/components">
+            <NavLink to="/purchases">
               <FaShoppingCart className="nav-icon" /> {/* Purchasing Icon */}
               <span>Purchasing</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/components">
+            <NavLink to="/bom-ordering">
               <FaClipboardList className="nav-icon" /> {/* BoM Ordering Icon */}
               <span>BoM Ordering</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/components">
+            <NavLink to="/lending">
               <FaHandHoldingUsd className="nav-icon" /> {/* Lending Icon */}
               <span>Lending</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/components">
+            <NavLink to="/analytics">
               <FaChartLine className="nav-icon" /> {/* Analytics Icon */}
               <span>Analytics</span>
             </NavLink>
@@ -58,10 +58,9 @@ const NavigationPanel = () => {
       </nav>
       <div className="settings-help">
         <NavLink to="/settings">
-        <FaCog className="nav-icon" /> {/* Purchasing Icon */}
-        <span>
-        Settings
-          </span></NavLink>
+          <FaCog className="nav-icon" /> {/* Settings Icon */}
+          <span>Settings</span>
+        </NavLink>
         <NavLink to="/help">Help Centre</NavLink>
       </div>
     </div>

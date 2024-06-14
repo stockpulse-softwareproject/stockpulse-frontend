@@ -1,0 +1,64 @@
+.purchases-container {
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header input, .header select {
+    padding: 10px;
+    margin: 0 10px;
+  }
+  
+  .purchases-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .purchases-table th, .purchases-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .status {
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .status.unpaid {
+    background-color: red;
+    color: white;
+  }
+  
+  .status.paid {
+    background-color: green;
+    color: white;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .add-btn {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .cancel-btn {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  

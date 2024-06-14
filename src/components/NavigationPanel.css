@@ -1,32 +1,41 @@
 /* src/components/NavigationPanel.css */
 
 .nav-panel {
-    width: 200px;
-    background-color: #e6f7ff;
-    padding: 20px;
-    position: fixed;
-    height: 100%;
-    box-shadow: 2px 0px 5px rgba(0,0,0,0.1);
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  nav ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  nav ul li {
-    margin: 20px 0;
-  }
-  
-  nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 18px;
-  }
-  
+  width: 200px;
+  background-color: #e6f7ff;
+  padding: 20px;
+  position: fixed;
+  height: 100%;
+  box-shadow: 2px 0px 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 20px 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+}
+.settings-help a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin-top: 20px;
+}
+
+.settings-help a .nav-icon {
+  margin-right: 10px;
+}
