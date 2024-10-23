@@ -10,7 +10,7 @@ const LowStocks = () => {
   const [updateComponent] = useUpdateComponentMutation(); // Hook to update component
 
   const [editMode, setEditMode] = useState(null); // Track which component is being edited
-  const [editData, setEditData] = useState({}); // Hold the updated component data
+  const [editData, setEditData] = useState({}); 
 
   const handleCancelClick = () => {
     navigate('/dashboard');
@@ -27,7 +27,7 @@ const LowStocks = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditData({ ...editData, [name]: value }); // Update form data
+    setEditData({ ...editData, [name]: value }); 
   };
 
   const handleUpdateClick = async () => {
