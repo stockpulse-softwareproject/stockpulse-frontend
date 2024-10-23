@@ -1,6 +1,6 @@
 // AddComponent.js
 import React from 'react';
-import './AddComponent.css'; // Import the CSS file for styling
+import './AddComponent.css'; 
 
 const AddComponent = () => {
   return (
