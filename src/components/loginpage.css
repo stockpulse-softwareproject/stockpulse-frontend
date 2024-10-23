@@ -1,6 +1,7 @@
 .login-container {
   display: flex;
   height: 100vh;
+  width: auto;
 }
 
 .left-section {
@@ -9,7 +10,7 @@
   align-items: center;
   color: white;
   flex: 1;
-  background-color: #333; /* You can set a background color if needed */
+  background-color: #333; 
 }
 
 .logo h1 {
@@ -25,7 +26,7 @@
 }
 
 .welcome-back {
-  max-width: 400px;
+  max-width: 500px;
   padding: 20px;
   background-color: white;
   border-radius: 8px;
@@ -38,7 +39,7 @@
 }
 
 .highlight {
-  color: #f39c12; /* Highlight color */
+  color: #f39c12; 
 }
 
 .signin-btn {
@@ -52,22 +53,17 @@
   cursor: pointer;
 }
 
-.google-signin-btn {
+.forgetpw-btn {
   width: 100%;
   margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  border: 1px solid #ddd;
+  background-color:none;
+  border: none;
+  color: white;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.google-signin-btn img {
-  margin-right: 10px;
-}
 
 .divider {
   margin: 20px 0;
@@ -96,3 +92,5 @@
 .signup-link {
   margin-top: 10px;
 }
+
+
