@@ -1,6 +1,6 @@
 /* AddComponent.css */
 
-/* General Layout */
+
 .add-component-container {
     display: flex;
     min-height: 100vh;
@@ -43,7 +43,7 @@
   .sidebar nav ul li a:hover,
   .sidebar nav ul li a.active {
     background-color: #e5e7eb;
-    color: #1e3a8a; /* Highlight color for active link */
+    color: #1e3a8a; 
   }
   
   /* Main Content */
