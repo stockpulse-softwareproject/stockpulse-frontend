@@ -3,7 +3,6 @@ import { login } from '../services/authService';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './loginpage.css';
 import { useNavigate } from 'react-router-dom';
-import { FaGoogle } from 'react-icons/fa'; 
 import './GoogleSignInButton.css'; 
 
 const LoginPage = () => {
@@ -64,7 +63,7 @@ const LoginPage = () => {
                   type='email'
                   placeholder='Example@email.com'
                   name='email'
-                  value={formData.email} // email binding from state
+                  value={formData.email} // Bind the email value from state
                   onChange={handleChange} // Update state on change
                 />
               </Form.Group>
@@ -75,7 +74,7 @@ const LoginPage = () => {
                   type='password'
                   placeholder='At least 8 characters'
                   name='password'
-                  value={formData.password} // password binding
+                  value={formData.password} // Bind the password value from state
                   onChange={handleChange} // Update state on change
                 />
                 <Form.Text className='text-muted'>

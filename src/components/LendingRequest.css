@@ -11,7 +11,6 @@
   z-index: 1000;
 }
 
-/* Modal container */
 .modal-container {
   background-color: white;
   padding: 20px;
@@ -20,7 +19,7 @@
   max-width: 90%;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-/* Modal title */
+
 .modal-container h2 {
   margin-bottom: 20px;
   font-size: 1.5em;
@@ -28,7 +27,7 @@
   color: #333;
 }
 
-/* Form styling */
+
 .modal-container form div {
   margin-bottom: 15px;
 }
@@ -49,7 +48,7 @@
   font-size: 1em;
 }
 
-/* Button styling */
+
 .modal-container button {
   padding: 10px 15px;
   border: none;
@@ -69,7 +68,7 @@
   color: white;
 }
 
-/* Responsive styling */
+
 @media (max-width: 500px) {
   .modal-container {
     width: 100%;

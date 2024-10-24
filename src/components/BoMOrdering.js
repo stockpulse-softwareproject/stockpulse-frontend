@@ -4,7 +4,7 @@ import { Form, Button, Table } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import Header from './Header';
 import { useNavigate } from 'react-router-dom';
-import { useCreateCircuitMutation, useSearchInStockQuery } from '../services/api'; // Ensure correct import path
+import { useCreateCircuitMutation, useSearchInStockQuery } from '../services/api'; 
 
 const BoMOrdering = () => {
     const [items, setItems] = useState([{ id: 1, partNumber: '', quantity: 1, cost: '', footprint: '', description: '' }]);

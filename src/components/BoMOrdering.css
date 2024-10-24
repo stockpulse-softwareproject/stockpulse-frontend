@@ -79,7 +79,7 @@
 .bom-ordering-container .bom-ordering-content .add-bom-btn, 
 .bom-ordering-container .bom-ordering-content .cancel-btn {
   padding: 10px 20px;
-  font-size: 14px; /* Adjusted font size */
+  font-size: 14px; 
   font-weight: bold;
   border: none;
   border-radius: 5px;
@@ -101,7 +101,7 @@
 .bom-ordering-container .bom-ordering-content .place-order-btn, 
 .bom-ordering-container .bom-ordering-content .cancel-order-btn {
   padding: 10px 20px;
-  font-size: 14px; /* Adjusted font size */
+  font-size: 14px; 
   font-weight: bold;
   border: none;
   border-radius: 5px;

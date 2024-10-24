@@ -4,10 +4,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const appApi = createApi({
   reducerPath: 'appApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api', // Ensure this base URL points to your backend server
+    baseUrl: process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api', 
     prepareHeaders: (headers) => {
-      // Optionally add headers like authorization tokens
-      const token = localStorage.getItem('token'); // Example for JWT
+      const token = localStorage.getItem('token'); 
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -171,9 +170,9 @@ export const appApi = createApi({
 
     updateRequest: builder.mutation({
       query: ({ id, status }) => ({
-        url: `/component-request/${id}/status`, // Use the actual ID in the URL
+        url: `/component-request/${id}/status`,
         method: 'PATCH',
-        body: { status }, // Only send the updated status field
+        body: { status }, 
       }),
     }),
     
@@ -193,14 +192,14 @@ export const appApi = createApi({
     }),
 
     getCurrentUser: builder.query({
-      query: () => '/auth/me', // Ensure this exists on the backend
+      query: () => '/auth/me', 
     }),
     
     searchComponents: builder.query({
       query: ({ partNo }) => `/components/search?partNo=${partNo}`,
     }),
 
-    // New endpoint for submitting questions
+    //  endpoint for submitting questions
     submitQuestion: builder.mutation({
       query: (question) => ({
         url: '/help/submit-question', 
@@ -209,7 +208,7 @@ export const appApi = createApi({
       }),
     }),
 
-        // Add the new endpoint for submitting answers
+        //  the  endpoint for submitting answers
     submitAnswer: builder.mutation({
       query: ({ questionId, answer }) => ({
         url: '/help/submit-answer',
@@ -218,7 +217,7 @@ export const appApi = createApi({
       }),
     }),
 
-      // Add these endpoints in the 'endpoints' section of your appApi
+    //stats endpoints
       getStats: builder.query({
         query: () => '/stats',
       }),
@@ -234,7 +233,7 @@ export const appApi = createApi({
       getMonthlyChange: builder.query({
         query: () => '/stats/monthly-change',
       }),
-    // Additional endpoints can go here as your project evolves
+ 
   }),
 });
 
@@ -268,7 +267,7 @@ export const {
   useGetStaticsMutation,
   useGetCurrentUserQuery,
   useLazySearchComponentsQuery,
-  useSubmitQuestionMutation, // Add the new hook for submitting questions
+  useSubmitQuestionMutation, 
   useSubmitAnswerMutation,
   useGetStatsQuery,
   useGetLatestComponentsQuery,

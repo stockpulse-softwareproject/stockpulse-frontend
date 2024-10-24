@@ -1,8 +1,6 @@
-/* NotificationPanel.css */
-
 .notification-panel {
     position: fixed;
-    top: 60px; /* Adjust based on your header height */
+    top: 60px; 
     right: 10px;
     width: 300px;
     max-height: 80vh;

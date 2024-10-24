@@ -1,5 +1,3 @@
-// src/components/OrderList.js
-
 import React from 'react';
 import './OrderList.css';
 
@@ -38,7 +36,6 @@ const OrderList = () => {
             <td>Waiting payment</td>
             <td>...</td>
           </tr>
-          {/* Add more rows as needed */}
         </tbody>
       </table>
     </div>

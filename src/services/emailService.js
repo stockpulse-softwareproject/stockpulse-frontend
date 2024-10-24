@@ -1,6 +1,4 @@
 const emailjs = require('emailjs-com');
-
-// Standalone function to send a purchase request to the admin
 const requestApprovalFromAdmin = async (message) => {
   // EmailService class declaration inside the function
   class EmailService {

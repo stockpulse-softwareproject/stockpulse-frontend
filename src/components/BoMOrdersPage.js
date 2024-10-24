@@ -1,7 +1,5 @@
-// BoMOrdersPage.js
-
 import React from 'react';
-import { useGetBOMsQuery } from '../services/api'; // Adjust the import path as necessary
+import { useGetBOMsQuery } from '../services/api';
 import Header from './Header';
 import './BoMOrdersPage.css';
 

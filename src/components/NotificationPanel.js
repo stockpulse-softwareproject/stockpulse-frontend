@@ -1,6 +1,5 @@
-// NotificationPanel.js
 import React from 'react';
-import './NotificationPanel.css'; // Import the CSS file for styling
+import './NotificationPanel.css'; 
 
 const notifications = [
   { name: 'Dhanuka', time: '10.32 am', message: 'Confirmation of BoM', unread: 4, img: '/path/to/1.jpg' },
@@ -11,7 +10,7 @@ const notifications = [
 ];
 
 const NotificationPanel = ({ visible, onClose }) => {
-  if (!visible) return null; // Do not render the panel if it's not visible
+  if (!visible) return null; 
 
   return (
     <div className="notification-panel">

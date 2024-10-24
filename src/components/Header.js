@@ -16,7 +16,7 @@ const Header = ({ title, titlePrefix = 'My' }) => {
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; // Clear 'authToken' cookie
     document.cookie = 'role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; // Clear 'role' cookie
 
-    navigate('/'); // 
+    navigate('/'); 
   };
 
   return (

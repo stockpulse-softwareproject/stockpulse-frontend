@@ -1,70 +1,154 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddPurchase.css';
+import Header from './Header';
+import { useAddPurchaseMutation, useUpdatePurchaseMutation } from '../services/api';
+import Cookies from 'js-cookie';
+import requestApprovalFromAdmin from '../services/emailService';
 
-const AddPurchase = () => {
+const AddPurchase = ({ onClose, purchase, onSave }) => {
+  const [product, setProduct] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [paymentLinkOrShop, setPaymentLinkOrShop] = useState('');
+  const [cost, setCost] = useState('');
+  const [date, setDate] = useState('');
+  const [status, setStatus] = useState('Unpaid');  // Default status is 'Unpaid'
+  const [message, setMessage] = useState('');
+
+  const [addPurchase] = useAddPurchaseMutation();
+  const [updatePurchase] = useUpdatePurchaseMutation();  // Add the update mutation
+
+  // Populate the fields when editing an existing purchase
+  useEffect(() => {
+    if (purchase) {
+      setProduct(purchase.product || '');
+      setQuantity(purchase.quantity || '');
+      setPaymentLinkOrShop(purchase.paymentLinkOrShop || '');
+      setCost(purchase.cost || '');
+      setDate(purchase.date ? new Date(purchase.date).toISOString().split('T')[0] : '');  // Format the date correctly
+      setStatus(purchase.status || 'Unpaid');  // Prepopulate status field if editing
+    }
+  }, [purchase]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const updatedPurchase = {
+      product,
+      quantity: parseInt(quantity, 10),
+      paymentLinkOrShop,
+      cost: parseFloat(cost),
+      date: new Date(date),
+      status,  // Include the selected status
+    };
+
+    const role = Cookies.get('role');
+
+    if (!role) {
+      alert('Not allowed to make the purchase');
+      return;
+    }
+
+    setMessage(`
+      User with role "${role}" is requesting approval for a purchase:
+      - Product: ${product}
+      - Quantity: ${quantity}
+      - Cost: Rs ${cost}
+      - Payment Link/Shop: ${paymentLinkOrShop}
+      - Date Required: ${date}
+      - Status: ${status}
+    `);
+
+    try {
+      if (purchase) {
+        // Updating an existing purchase
+        await updatePurchase({ id: purchase._id, purchase: updatedPurchase }).unwrap();
+        alert('Purchase updated successfully!');
+      } else {
+        // Adding a new purchase
+        await addPurchase(updatedPurchase).unwrap();
+        alert('Purchase added successfully!');
+      }
+      onSave(updatedPurchase);  // Call onSave to either update or add the purchase
+      onClose();
+    } catch (error) {
+      console.error('Failed to save purchase:', error.response ? error.response.data : error.message);
+      alert('Failed to save purchase');
+    }
+  };
+
   return (
-    <div className="add-purchase-container">
-      <header className="header">
-        <h2>Add Purchase</h2>
-      </header>
-      <form className="add-purchase-form">
-        <div className="form-group">
-          <label>Add Component details:</label>
-          <button className="add-component-btn">+</button>
+    <div className='add-purchase-container'>
+      <Header title='Purchase' titlePrefix={purchase ? 'Edit' : 'Add'} />
+      <form className='add-purchase-form' onSubmit={handleSubmit}>
+        <div className='form-group'>
+          <label>Product:</label>
+          <input
+            type='text'
+            value={product}
+            onChange={(e) => setProduct(e.target.value)}
+            required
+          />
         </div>
-        <div className="form-group">
-          <label>Total Cost of order:</label>
-          <input type="text" />
+        <div className='form-group'>
+          <label>Quantity:</label>
+          <input
+            type='number'
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            required
+          />
         </div>
-        <div className="form-group">
-          <label>Date you wanted components:</label>
-          <input type="date" />
+        <div className='form-group'>
+          <label>Payment Link or Shop:</label>
+          <input
+            type='text'
+            value={paymentLinkOrShop}
+            onChange={(e) => setPaymentLinkOrShop(e.target.value)}
+            required
+          />
         </div>
-        <table className="order-details-table">
-          <thead>
-            <tr>
-              <th>Part No</th>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Payment link or Shop</th>
-              <th>Cost(Rs)</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>NE555</td>
-              <td>Resistor</td>
-              <td>1000</td>
-              <td>Nilabara Electronics</td>
-              <td>1020</td>
-              <td>02/11/2022</td>
-            </tr>
-            <tr>
-              <td>SPH4576</td>
-              <td>Resistor</td>
-              <td>3000</td>
-              <td>www.tronic.lk</td>
-              <td>2300</td>
-              <td>16/08/2023</td>
-            </tr>
-            <tr>
-              <td>VSS5638</td>
-              <td>Capacitor</td>
-              <td>150</td>
-              <td>Store name</td>
-              <td>560</td>
-              <td>04/12/2023</td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="actions">
-          <button className="add-btn">Add</button>
-          <button className="cancel-btn">Cancel</button>
+        <div className='form-group'>
+          <label>Cost (Rs):</label>
+          <input
+            type='number'
+            value={cost}
+            onChange={(e) => setCost(e.target.value)}
+            required
+          />
+        </div>
+        <div className='form-group'>
+          <label>Date Required:</label>
+          <input
+            type='date'
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
+        </div>
+        <div className='form-group'>
+          <label>Status:</label>
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            required
+          >
+            <option value="Unpaid">Unpaid</option>
+            <option value="Paid">Paid</option>
+            <option value="Pending">Pending</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div className='actions'>
+          <button type='submit' className='add-btn'>
+            {purchase ? 'Update Purchase' : 'Add Purchase'}
+          </button>
+          <button type='button' className='cancel-btn' onClick={onClose}>
+            Cancel
+          </button>
         </div>
       </form>
     </div>
   );
-}
-//commit test
+};
+
 export default AddPurchase;

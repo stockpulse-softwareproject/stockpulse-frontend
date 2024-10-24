@@ -1,4 +1,3 @@
-// src/components/HelpCenter.js
 import React, { useState, useEffect } from 'react';
 import './HelpCenter.css';
 import Header from './Header';
@@ -89,15 +88,13 @@ const HelpCenter = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
 
-      {/* Display all questions with answers */}
-      <div className="questions-container">
+          <div className="questions-container">
         {questions.map((q) => (
           <div key={q._id} className="question-box">
             <h4>{q.question}</h4>
             <p>Asked by: {q.user?.name || 'Anonymous'}</p>
 
-            {/* Display answers */}
-            {q.answers && q.answers.length > 0 && (
+                      {q.answers && q.answers.length > 0 && (
               <div className="answers-container">
                 <h5>Answers:</h5>
                 {q.answers.map((a, index) => (
@@ -109,8 +106,7 @@ const HelpCenter = () => {
               </div>
             )}
 
-            {/* Answer input box */}
-            <form onSubmit={(e) => handleSubmitAnswer(e, q._id)}>
+                    <form onSubmit={(e) => handleSubmitAnswer(e, q._id)}>
               <textarea
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
@@ -121,9 +117,7 @@ const HelpCenter = () => {
             </form>
           </div>
         ))}
-
-        {/* Predefined Questions and Answers */}
-        <div className="predefined-qa">
+         <div className="predefined-qa">
           <h3>Frequently Asked Questions</h3>
           <div className="question-box">
             <h4>1. How can I reset my password?</h4>

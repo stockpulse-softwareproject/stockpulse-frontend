@@ -1,5 +1,3 @@
-// src/components/Button.js
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Button.css';
@@ -20,13 +18,13 @@ const Button = ({ label, onClick, type = 'button', className = '', disabled = fa
 };
 
 Button.propTypes = {
-  label: PropTypes.string.isRequired, // The text on the button
-  onClick: PropTypes.func, // Click handler
-  type: PropTypes.oneOf(['button', 'submit', 'reset']), // Button type
-  className: PropTypes.string, // Additional CSS classes
-  disabled: PropTypes.bool, // Disabled state
-  icon: PropTypes.elementType, // Icon component
-  iconPosition: PropTypes.oneOf(['left', 'right']) // Icon position relative to the text
+  label: PropTypes.string.isRequired, 
+  onClick: PropTypes.func,
+  type: PropTypes.oneOf(['button', 'submit', 'reset']), 
+  className: PropTypes.string, 
+  disabled: PropTypes.bool, 
+  icon: PropTypes.elementType, 
+  iconPosition: PropTypes.oneOf(['left', 'right']) 
 };
 
 export default Button;

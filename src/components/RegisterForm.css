@@ -65,7 +65,6 @@
   color: #555;
 }
 
-
 .form-group select {
   width: 100%;
   padding: 10px;
@@ -73,7 +72,6 @@
   border-radius: 5px;
   box-sizing: border-box;
 }
-
 
 .form-group select {
   width: 200px; 
@@ -106,7 +104,6 @@
   text-decoration: underline;
 }
 
-
 .login-link button:hover {
-  color: #555; 
+  color: #555;
 }

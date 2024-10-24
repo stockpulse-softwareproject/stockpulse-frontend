@@ -1,18 +1,16 @@
-/* src/components/Header.css */
-
 .header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px; /* Existing padding */
+  padding: 10px 20px; 
   background-color: #fff;
   border-bottom: 1px solid #ddd;
   position: fixed;
   top: 0;
-  left: 250px; /* Aligns after the NavigationPanel */
-  width: calc(100% - 250px); /* Full width minus the NavigationPanel width */
-  z-index: 999; /* Ensure it's on top of the main content */
-  padding-left: 40px; /* Add padding to move content to the right */
+  left: 250px; 
+  width: calc(100% - 250px); 
+  z-index: 999; 
+  padding-left: 40px;
 }
 
 .title {
@@ -25,7 +23,7 @@
 }
 
 .highlight {
-  color: #aa00ff; /* Your highlight color */
+  color: #aa00ff; 
 }
 
 .search-bar {

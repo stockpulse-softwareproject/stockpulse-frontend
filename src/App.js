@@ -129,14 +129,7 @@ const App = () => {
               </Layout>
             }
           />
-          {/* Add other routes here */}
         </Routes>
-
-        {/* Notification Panel */}
-        <NotificationPanel
-          visible={isNotificationPanelVisible}
-          onClose={() => setNotificationPanelVisible(false)}
-        />
       </div>
     </Router>
   );

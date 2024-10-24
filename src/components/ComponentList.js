@@ -1,86 +1,146 @@
-// src/components/ComponentList.js
-
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useGetComponentsQuery, useDeleteComponentMutation, useUpdateComponentMutation, useLazySearchComponentsQuery } from '../services/api';
 import './ComponentList.css';
+import AddRequest from './AddRequest';
+import AddComponent from './AddComponent';
+import Header from './Header';
 
 const ComponentList = () => {
-  const components = [
-    { id: '#20462', product: 'Resistor', partNo: 'ncp18xh103f03rb', value: '10k', qty: 4000, footprint: '805', description: 'Delivered' },
-    { id: '#18933', product: 'Resistor', partNo: '71-CRCW060310K0JNEAC', value: '10 ohm', qty: 100, footprint: '603', description: 'Delivered' },
-    { id: '#45169', product: 'Capacitor', partNo: 'T491A104K035AT', value: '100nf', qty: 1, footprint: '1206', description: 'Process' },
-    { id: '#34304', product: 'Capacitor', partNo: '0805B105K500NT', value: '10uf', qty: 10000, footprint: '805', description: 'Process' },
-    { id: '#17188', product: 'Resistor', partNo: 'RC0603FR-0751KL', value: '51k', qty: 10, footprint: '603', description: 'Cancelled' },
-    { id: '#73003', product: 'IC', partNo: '926-LP2985AIM5X-3.3/NOPB', value: '', qty: 1, footprint: '', description: 'Delivered' },
-    { id: '#58825', product: 'Resistor', partNo: '0603WAF4023T5E', value: '402k', qty: 100, footprint: '603', description: 'Delivered' },
-    { id: '#44222', product: 'Optocouplers', partNo: 'CYPC817(B)-TP2', value: '', qty: 50, footprint: '', description: 'Delivered' },
-    { id: '#89094', product: 'Connectors', partNo: '200-SSW10Q02LD', value: '', qty: 20, footprint: '', description: 'Cancelled' },
-    { id: '#85252', product: 'Relay', partNo: 'Poppy-Rose', value: '22/10/2023', qty: 6950, footprint: 'Transfer Bank', description: 'Process' },
-  ];
+    const [isAddRequestVisible, setAddRequestVisible] = useState(false);
+    const [isAddComponentVisible, setAddComponentVisible] = useState(false);
+    const [editingComponent, setEditingComponent] = useState(null);
+    const [searchTerm, setSearchTerm] = useState(''); // Search term state
+    const [searchResults, setSearchResults] = useState(null); // To store search results
 
-  return (
-    <div className="component-list-container">
-      <h2>Search Components</h2>
-      <div className="filter-search">
-        <div className="filter">
-          <select>
-            <option>Pick an option</option>
-            <option>Resistor</option>
-            <option>Capacitor</option>
-            <option>IC</option>
-            <option>Optocouplers</option>
-            <option>Connectors</option>
-            <option>Relay</option>
-          </select>
-          <select>
-            <option>Pick an option</option>
-            <option>Value</option>
-            <option>Qty</option>
-            <option>Footprint</option>
-            <option>Description</option>
-          </select>
-          <input type="text" placeholder="Enter Value" />
+    const navigate = useNavigate();
+    const { data: components, refetch } = useGetComponentsQuery();
+    const [deleteComponent] = useDeleteComponentMutation();
+    const [updateComponent] = useUpdateComponentMutation();
+    const [triggerSearch] = useLazySearchComponentsQuery(); // Lazy query for search
+
+    const toggleAddRequest = () => {
+        setAddRequestVisible(!isAddRequestVisible);
+    };
+
+    const toggleAddComponent = () => {
+        setAddComponentVisible(!isAddComponentVisible);
+    };
+
+    const handleCancelClick = () => {
+        navigate('/dashboard');
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            await deleteComponent(id).unwrap();
+            refetch(); // Refresh the component list after deletion
+        } catch (err) {
+            console.error('Error deleting component:', err);
+        }
+    };
+
+    const handleEdit = (component) => {
+        setEditingComponent(component);
+        toggleAddComponent(); // Show the add component modal to edit
+    };
+
+    const handleSearch = async () => {
+        if (searchTerm.trim()) {
+            try {
+                const result = await triggerSearch({ partNo: searchTerm }).unwrap();
+                setSearchResults(result); // Set the search results to be displayed
+            } catch (err) {
+                console.error('Error searching components:', err);
+            }
+        } else {
+            setSearchResults(null); // Clear search results if input is empty
+        }
+    };
+
+    const displayedComponents = searchResults || components; // Show search results if present
+
+    return (
+        <div className="dashboard-container">
+            <Header title="Components" titlePrefix="Search" />
+            <div className={`component-list-container ${isAddRequestVisible || isAddComponentVisible ? 'blur-background blur-transition' : ''}`}>
+                {/* Search Input and Button */}
+                <div className="filter-search">
+                    <input
+                        type="text"
+                        placeholder="Search by part number"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="search-input"
+                    />
+                    <button onClick={handleSearch} className="search-btn">Search</button>
+                </div>
+
+                {/* Component List Table */}
+                <table className="component-table">
+                    <thead>
+                        <tr>
+                            <th>Stock ID</th>
+                            <th>Product</th>
+                            <th>Part No</th>
+                            <th>Value</th>
+                            <th>Qty</th>
+                            <th>Footprint</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {displayedComponents?.map((component) => (
+                            <tr key={component._id}>
+                                <td>{component.stockID}</td>
+                                <td>{component.product}</td>
+                                <td>{component.partNo}</td>
+                                <td>{component.value}</td>
+                                <td>{component.qty}</td>
+                                <td>{component.footprint}</td>
+                                <td className={component.description.toLowerCase()}>{component.description}</td>
+                                <td>
+                                    <button className="edit-btn" onClick={() => handleEdit(component)}>✏️</button>
+                                    <button className="delete-btn" onClick={() => handleDelete(component._id)}>🗑️</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                {/* Action Buttons */}
+                <div className="action-buttons">
+                    <button onClick={toggleAddRequest} className="btn-request">Request</button>
+                    <button onClick={toggleAddComponent} className="btn-add">Add</button>
+                    <button className="cancel-btn" onClick={handleCancelClick}>Cancel</button>
+                </div>
+            </div>
+
+            {isAddRequestVisible && <AddRequest visible={isAddRequestVisible} onClose={() => setAddRequestVisible(false)} />}
+
+            {isAddComponentVisible && (
+                <AddComponent
+                    visible={isAddComponentVisible}
+                    onClose={() => {
+                        setAddComponentVisible(false);
+                        setEditingComponent(null);
+                    }}
+                    component={editingComponent}
+                    onSave={async (component) => {
+                        try {
+                            if (editingComponent) {
+                                await updateComponent({ id: editingComponent._id, component }).unwrap();
+                            }
+                            refetch(); // Refresh the component list after update
+                        } catch (err) {
+                            console.error('Error updating component:', err);
+                        }
+                    }}
+                />
+            )}
         </div>
-        <button className="search-btn">Search</button>
-        <button className="filter-btn">Filter By</button>
-      </div>
-      <table className="component-table">
-        <thead>
-          <tr>
-            <th>Stock ID</th>
-            <th>Product</th>
-            <th>Part No</th>
-            <th>Value</th>
-            <th>Qty</th>
-            <th>Footprint</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {components.map((component) => (
-            <tr key={component.id}>
-              <td>{component.id}</td>
-              <td>{component.product}</td>
-              <td>{component.partNo}</td>
-              <td>{component.value}</td>
-              <td>{component.qty}</td>
-              <td>{component.footprint}</td>
-              <td className={component.description.toLowerCase()}>{component.description}</td>
-              <td>
-                <button className="edit-btn">✏️</button>
-                <button className="delete-btn">🗑️</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="action-buttons">
-        <button className="request-btn">REQUEST</button>
-        <button className="add-btn">ADD</button>
-        <button className="cancel-btn">CANCEL</button>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ComponentList;

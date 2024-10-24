@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './RegisterForm.css';
+import './RegisterForm.css'; 
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Add axios for API calls
+import axios from 'axios'; 
 import { register } from '../services/authService';
 
 const RegisterForm = () => {
@@ -11,7 +11,7 @@ const RegisterForm = () => {
     navigate('/');
   };
 
-  // State to manage form data
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -113,7 +113,7 @@ const RegisterForm = () => {
               />
             </div>
             <div className='form-group'>
-              {/* Role selection dropdown */}
+           
               <label htmlFor='role'>Select Role</label>
               <select
                 name='role'

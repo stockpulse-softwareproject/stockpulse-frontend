@@ -1,83 +1,109 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useGetPurchasesQuery, useDeletePurchaseMutation, useUpdatePurchaseMutation } from '../services/api';
 import './Purchases.css';
+import AddPurchase from './AddPurchase';
+import Header from './Header';
 
 const Purchases = () => {
-  return (
-    <div className="purchases-container">
-      <header className="header">
-        <h2>Purchases</h2>
-        <input type="text" placeholder="Enter Value" />
-        <input type="text" placeholder="Search here" />
-        <select>
-          <option value="order-id">Order ID</option>
-        </select>
-      </header>
-      <table className="purchases-table">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Payment link or Shop</th>
-            <th>Cost(Rs)</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>#7676</td>
-            <td>Resistor</td>
-            <td>1000</td>
-            <td>Store name</td>
-            <td>1020</td>
-            <td>02/11/2022</td>
-            <td className="status unpaid">Unpaid</td>
-          </tr>
-          <tr>
-            <td>#7676</td>
-            <td>Resistor</td>
-            <td>3000</td>
-            <td>www.tronic.lk</td>
-            <td>2300</td>
-            <td>16/08/2023</td>
-            <td className="status paid">Paid</td>
-          </tr>
-          <tr>
-            <td>#7676</td>
-            <td>Capacitor</td>
-            <td>150</td>
-            <td>Store name</td>
-            <td>560</td>
-            <td>04/12/2023</td>
-            <td className="status paid">Paid</td>
-          </tr>
-          <tr>
-            <td>#7676</td>
-            <td>Relay</td>
-            <td>25</td>
-            <td>www.mouser.com</td>
-            <td>1960</td>
-            <td>21/01/2024</td>
-            <td className="status paid">Paid</td>
-          </tr>
-          <tr>
-            <td>#7676</td>
-            <td>IC</td>
-            <td>5</td>
-            <td>Store name</td>
-            <td>2578</td>
-            <td>01/03/2024</td>
-            <td className="status paid">Paid</td>
-          </tr>
-        </tbody>
-      </table>
-      <div className="actions">
-        <button className="add-btn">Add Purchase</button>
-        <button className="cancel-btn">Cancel</button>
-      </div>
+    const [isAddPurchaseVisible, setAddPurchaseVisible] = useState(false);
+    const [editingPurchase, setEditingPurchase] = useState(null);
+
+    const navigate = useNavigate();
+    const { data: purchases, refetch } = useGetPurchasesQuery();
+    const [deletePurchase] = useDeletePurchaseMutation();
+    const [updatePurchase] = useUpdatePurchaseMutation();
+
+    const toggleAddPurchase = () => {
+        setAddPurchaseVisible(!isAddPurchaseVisible);
+    };
+
+    const handleCancelClick = () => {
+        navigate('/dashboard');
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            await deletePurchase(id).unwrap();
+            refetch(); // Refresh the purchase list after deletion
+        } catch (err) {
+            console.error('Error deleting purchase:', err);
+        }
+    };
+
+    const handleEdit = (purchase) => {
+        setEditingPurchase(purchase);  // Set the selected purchase data
+        toggleAddPurchase();  // Show the add purchase modal to edit
+    };
+    
+    return (
+        <div className="dashboard-container">
+            <Header title="Purchases" titlePrefix="Search" />
+            <div className={`purchases-list-container ${isAddPurchaseVisible ? 'blur-background blur-transition' : ''}`}>
+                <table className="purchases-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Payment Link or Shop</th>
+                            <th>Cost (Rs)</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {purchases?.map((purchase) => (
+                            <tr key={purchase._id}>
+                                <td>{purchase.orderID}</td>
+                                <td>{purchase.product}</td>
+                                <td>{purchase.quantity}</td>
+                                <td>{purchase.paymentLinkOrShop}</td>
+                                <td>{purchase.cost}</td>
+                                <td>{new Date(purchase.date).toLocaleDateString()}</td>
+                                <td className={purchase.status.toLowerCase()}>{purchase.status}</td>
+                                <td>
+                                    <button className="edit-btn" onClick={() => handleEdit(purchase)}>✏️</button>
+                                    <button className="delete-btn" onClick={() => handleDelete(purchase._id)}>🗑️</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <div className="action-buttons">
+                    <button onClick={toggleAddPurchase} className="btn-add">Add Purchase</button>
+                    <button className="cancel-btn" onClick={handleCancelClick}>Cancel</button>
+                </div>
+            </div>
+
+            {isAddPurchaseVisible && (
+            <div className="modal-overlay">
+                <AddPurchase
+                    visible={isAddPurchaseVisible}
+                    onClose={() => {
+                        setAddPurchaseVisible(false);
+                        setEditingPurchase(null);
+                    }}
+                    purchase={editingPurchase}  // Pass the selected purchase for editing
+                    onSave={async (purchase) => {
+                        try {
+                            if (editingPurchase) {
+                                await updatePurchase({ id: editingPurchase._id, purchase }).unwrap();
+                            } else {
+                                // Logic to handle adding a new purchase
+                            }
+                            refetch();  // Refresh the purchase list after update
+                        } catch (err) {
+                            console.error('Error updating purchase:', err);
+                        }
+                    }}
+                />
+            </div>
+        )}
     </div>
-  );
-}
+)
+
+};
 
 export default Purchases;
