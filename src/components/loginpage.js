@@ -3,7 +3,6 @@ import { login } from '../services/authService';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './loginpage.css';
 import { useNavigate } from 'react-router-dom';
-import './GoogleSignInButton.css'; 
 
 const LoginPage = () => {
   const navigate = useNavigate();

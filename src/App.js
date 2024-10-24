@@ -6,22 +6,18 @@ import AddComponent from './components/AddComponent';
 import RegisterForm from './components/RegisterForm';
 import LoginPage from './components/loginpage';
 import Dashboard from './components/Dashboard';
-import NotificationPanel from './components/NotificationPanel';
 import Layout from './components/Layout';
 import LowStocks from './components/LowStocks';
 import Purchases from './components/Purchases';
 import AddPurchase from './components/AddPurchase';
 import LendComponentsPage from './components/LendComponentsPage';
 import BoMOrdering from './components/BoMOrdering';
-import Settings from './components/Settings';
 import HelpCenter from './components/HelpCenter';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ComponentRequestPage from './components/ComponentRequestPage';
 import BoMOrdersPage from './components/BoMOrdersPage';
 
 const App = () => {
-
-  const [isNotificationPanelVisible, setNotificationPanelVisible] = useState(false);
 
   return (
     <Router>
@@ -94,14 +90,6 @@ const App = () => {
             element={
               <Layout>
                 <LendComponentsPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <Layout>
-                <Settings />
               </Layout>
             }
           />
